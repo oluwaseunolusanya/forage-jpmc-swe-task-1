@@ -1,0 +1,42 @@
+From b4b00b07f8030a16e4ee375ca1da221d8dec0ecd Mon Sep 17 00:00:00 2001
+From: oluwaseunolusanya <oluwaseun_olusanya@yahoo.com>
+Date: Wed, 23 Aug 2023 08:25:16 +0100
+Subject: [PATCH] Updated getDataPoint, getRatio and Main functions.
+
+---
+ client3.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/client3.py b/client3.py
+index 3fc09b7..aaea4df 100644
+--- a/client3.py
++++ b/client3.py
+@@ -35,14 +35,16 @@ def getDataPoint(quote):
+     stock = quote['stock']
+     bid_price = float(quote['top_bid']['price'])
+     ask_price = float(quote['top_ask']['price'])
+-    price = bid_price
+-    return stock, bid_price, ask_price, price
++    price = (bid_price + ask_price) / 2
++    return stock, bid_price, ask_price, round(price,2)
+ 
+ 
+ def getRatio(price_a, price_b):
+     """ Get ratio of price_a and price_b """
+     """ ------------- Update this function ------------- """
+-    return 1
++    if(price_b == 0):
++        return   #Avoid throwing ZeroDivisionError when price_b is 0
++    return price_a / price_b
+ 
+ 
+ # Main
+@@ -56,4 +58,4 @@ if __name__ == "__main__":
+             stock, bid_price, ask_price, price = getDataPoint(quote)
+             print("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
+ 
+-        print("Ratio %s" % getRatio(price, price))
++        print("Ratio %s" % getRatio(bid_price, ask_price))
+-- 
+2.34.1
+
